@@ -1,0 +1,1244 @@
+\documentclass[a4paper]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage[export]{adjustbox}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{tabularray}
+\usepackage[strict]{changepage}
+\usepackage[UTF8]{ctex}
+\usepackage[T1]{fontenc}
+\usepackage{pgfplots}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{
+    patterns,
+    arrows,
+    positioning,
+    calc,
+    fadings,
+    shapes,
+    decorations.markings
+}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{xeCJK}
+\usepackage[colorlinks=true, linkcolor=red]{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, left=25mm, right=25mm, top=25mm, bottom=25mm,}
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\di}{\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\st}{,\text{s.t.}}
+
+% 定义 formal 文本框
+\definecolor{formalshade}{rgb}{0.95,0.97,1}
+\definecolor{formalline}{rgb}{0,0,0.4}
+\newenvironment{formal}[1][]{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{formalline}\vrule width 2pt}%
+{\color{formalshade}\vrule width 4pt}%
+\colorbox{formalshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent
+\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{1pt}%
+\setlength{\parindent}{0pt}% 移除段落缩进
+\vspace{3pt}% 在内容顶部添加垂直空间
+\ifx&#1&\else % 检查参数是否为空
+\textbf{#1}\par
+\vspace{1pt}%
+\fi }{%
+\vspace{2pt}% 在内容底部添加垂直空间
+\end{adjustwidth}\endMakeFramed%
+}
+
+% 定义 solution 文本框
+\definecolor{solutionshade}{rgb}{1,0.97,0.97}
+\definecolor{solutionline}{rgb}{0.7,0.02,0.02}
+\newenvironment{solution}[1][]{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{solutionline}\vrule width 2pt}%
+{\color{solutionshade}\vrule width 4pt}%
+\colorbox{solutionshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent
+\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{1pt}%
+\setlength{\parindent}{0pt}% 移除段落缩进
+\vspace{3pt}% 在内容顶部添加垂直空间
+\ifx&#1&\else % 检查参数是否为空
+\textbf{#1}\par
+\vspace{1pt}%
+\fi }{%
+\vspace{2pt}% 在内容底部添加垂直空间
+\end{adjustwidth}\endMakeFramed%
+}
+
+% 定义 problem 文本框
+\definecolor{problemshade}{rgb}{0.98,0.96,1}
+\definecolor{problemline}{rgb}{0.27,0.2,0.55}
+\newenvironment{problem}[1][]{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{problemline}\vrule width 2pt}%
+{\color{problemshade}\vrule width 4pt}%
+\colorbox{problemshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent
+\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{1pt}%
+\setlength{\parindent}{0pt}% 移除段落缩进
+\vspace{3pt}% 在内容顶部添加垂直空间
+\ifx&#1&\else % 检查参数是否为空
+\textbf{#1}\par
+\vspace{1pt}%
+\fi }{%
+\vspace{2pt}% 在内容底部添加垂直空间
+\end{adjustwidth}\endMakeFramed%
+}
+
+% 定义 theorem 文本框
+\definecolor{theoremshade}{rgb}{0.98,0.94,0.96}
+\definecolor{theoremline}{rgb}{0.8,0.5,0.7}
+\newenvironment{theorem}[1][]{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{theoremline}\vrule width 2pt}%
+{\color{theoremshade}\vrule width 4pt}%
+\colorbox{theoremshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent
+\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{1pt}%
+\setlength{\parindent}{0pt}% 移除段落缩进
+\vspace{3pt}% 在内容顶部添加垂直空间
+\ifx&#1&\else % 检查参数是否为空
+\textbf{#1}\par
+\vspace{1pt}%
+\fi }{%
+\vspace{2pt}% 在内容底部添加垂直空间
+\end{adjustwidth}\endMakeFramed%
+}
+
+% 定义 remark 文本框
+\newenvironment{remark}{%
+\par
+\smallskip
+\noindent
+\itshape Remark. }{%
+\smallskip
+\hfill$\diamondsuit$ \par}
+
+% 定义 example 文本框
+\newenvironment{example}{%
+\par
+\smallskip
+\noindent
+\textbf{Example.} }{%
+\smallskip
+\hfill$\diamondsuit$ \par}
+
+\allowdisplaybreaks
+\setlength{\lineskiplimit}{2pt}
+\setlength{\lineskip}{\baselineskip-\ccwd}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+\setlength{\abovedisplayshortskip}{4pt}
+\setlength{\belowdisplayshortskip}{4pt}
+\everymath{\displaystyle}
+\linespread{1.4}
+
+\title{\huge\textbf{数分（中）课堂笔记}}
+\author{TheUnknownThing}
+
+\begin{document}
+    \maketitle
+
+    \section{多元函数的性质}
+
+    \subsection{$\mathbb{R}^{n}$ 的度量}
+
+    有内积，就可以诱导（induce）出范数（norm）。通过内积诱导出范数可以这样做：
+    \[
+        \|x\| = \sqrt{\langle x, x\rangle}
+    \]
+
+    有范数，就可以诱导出度量（距离）。度量需要满足的性质是如下三条：
+    \begin{enumerate}
+        \item $d(x, y) \geq 0$; 且 $d(x, y) = 0$ iff $x = y$
+
+        \item $d(x, y) = d(y, x)$
+
+        \item $d(x, z) \leq d(x, y) + d(y, z)$
+    \end{enumerate}
+
+    但是并不一定需要有“范数”，只需要空间有度量即可。
+
+    \begin{formal}
+        [Def (metric space)] 设 $X$ 为一集合， $d: X \times X \rightarrow \mathbb{R}
+        _{\geq 0}$.
+
+        称 $(X, d)$ 为一 度量空间, 若 $d$ 满足:
+
+        \begin{enumerate}
+            \item[(i)] $\forall x, y \in X$, $d(x, y) \geq 0$; 且 $d(x,y) = 0$ iff
+                $x = y$
+
+            \item[(ii)] $d(x, y) = d(y, x)$ $\forall x, y \in X$
+
+            \item[(iii)] $d(x, z) \leq d(x, y) + d(y, z)$ $\forall x, y, z \in X$
+        \end{enumerate}
+    \end{formal}
+
+    有度量，就有邻域。
+
+    \begin{formal}
+        [Def (邻域)] 设 $(X, d)$ metric space.
+
+        对 $a \in X$, $r > 0$, 称
+        \[
+            B_{r}(a) := \{x \in X \mid d(a, x) < r\} \quad (B(a,r))
+        \]
+        为以 $a$ 为中心, 以 $r$ 为半径的开球, 或称为 $a$ 的 $r$ 邻域.
+    \end{formal}
+
+    邻域长成什么样，跟度量有关系，图示两个例子给出不同度量下定义的邻域。
+
+    \begin{example}
+        $\mathbb{R}^{n}$, $B_{1}(0)$.
+
+        \begin{itemize}
+            \item $n=1$: $(-1, 1)$
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw[<->] (-1.5,0) -- (1.5,0);
+                        \draw[thick] (-1,0) -- (1,0);
+                        \draw (0,0) node[below] {$0$};
+                        \draw (-1,0) node[below] {$-1$};
+                        \draw (1,0) node[below] {$1$};
+                    \end{tikzpicture}
+                \end{center}
+
+            \item $n=2$:
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw[->] (-1.5,0) -- (1.5,0);
+                        \draw[->] (0,-1.5) -- (0,1.5);
+                        \draw (0,0) circle (1cm);
+                        \fill[pattern=north east lines, pattern color=gray!50]
+                            (0,0)
+                            circle
+                            (1cm);
+                    \end{tikzpicture}
+                \end{center}
+
+            \item $n=3$:
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw (0,0) circle (1.5cm);
+                        \draw[dashed] (0,0) ellipse (1.5cm and 0.45cm);
+                        \fill[pattern=north east lines, pattern color=gray!50]
+                            (0,0)
+                            circle
+                            (1.5cm);
+                    \end{tikzpicture}
+                \end{center}
+        \end{itemize}
+
+        $(\mathbb{R}^{n}, d_{\infty}), d_{\infty}(x, y) = \max_{1 \leq i \leq n}|
+        x^{i}- y^{i}|$
+
+        同样，我们考虑不同维数情况下 $B_{1}(0)$
+
+        \begin{itemize}
+            \item $n=1$: $(-1, 1)$
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw[<->] (-1.5,0) -- (1.5,0);
+                        \draw[thick] (-1,0) -- (1,0);
+                        \draw (0,0) node[below] {$0$};
+                        \draw (-1,0) node[below] {$-1$};
+                        \draw (1,0) node[below] {$1$};
+                    \end{tikzpicture}
+                \end{center}
+
+            \item $n=2$:
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw[->] (-1.5,0) -- (1.5,0);
+                        \draw[->] (0,-1.5) -- (0,1.5);
+                        \draw[thick] (-1,-1) rectangle (1,1);
+                        \fill[pattern=north east lines, pattern color=gray!50]
+                            (-1,-1) rectangle (1,1);
+                        \draw (-1,-1) node[below left] {$-1$};
+                        \draw (1,-1) node[below right] {$1$};
+                        \draw (-1,1) node[above left] {$1$};
+                        \draw (1,1) node[above right] {$-1$};
+                    \end{tikzpicture}
+                \end{center}
+
+            \item $n=3$: 一个边长为 1 的立方体。
+        \end{itemize}
+    \end{example}
+
+    类似的，我们定义了度量，就可以定义极限。
+
+    \begin{formal}
+        [Def] 设 $(X, d)$ metric space.
+
+        设 $\{x_{k}\} \subset X$, $a \in X$, 定义
+        \[
+            \lim_{k \to \infty}x_{k}= a \overset{\text{def}}{\iff}\forall \varepsilon
+            > 0, \exists K, \forall k > K: d(x_{k}, a) < \varepsilon
+        \]
+    \end{formal}
+
+    我们考虑 $\mathbb{R}^{n}$
+    下，使用欧式度量定义的极限。那么我们可以思考：一个“点列”收敛到一个点，其分量是否收敛？不难想象，这个命题其实是平凡的。
+
+    \begin{theorem}[Theorem]
+        设 $\{x_{k}\} \subset \mathbb{R}^{n}$, $a \in \mathbb{R}^{n}$.
+        \[
+            \lim_{k \to \infty}x_{k}= a \iff \forall \, 1 \leq j \leq n, \lim_{k
+            \to \infty}x_{k}^{j}= a^{j}
+        \]
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        \[
+            |x_{k}^{j}- a^{j}| \leq \|x_{k}- a\| = \sqrt{\sum_{i=1}^{n}(x_{k}^{i}-
+            a^{i})^{2}}\leq \sum_{i=1}^{n}|x_{k}^{i}- a^{i}|
+        \]
+    \end{proof}
+
+    也即，对 $\mathbb{R}^{n}$ 而言，点列收敛，等价于点列中每个分量作为数列收敛。那么刚才我们考虑了有限维，对于无限维呢？
+
+    \begin{remark}
+        $\ell^{2}(\mathbb{R}) := \{(x^{1}, x^{2}, \dots) \mid \sqrt{\sum_{i=1}^{\infty}(x^{i})^{2}}
+        < +\infty\}$， 设 $\{x_{k}\} \subset \ell^{2}(\mathbb{R}), \forall j \in \mathbb{N}, \lim_{k \to \infty}x_{k}^{j}= a^{j}$
+
+        Question:
+        \[
+            \lim_{k \to \infty}x_{k}\overset{?}{=}a
+        \]
+    \end{remark}
+
+    \begin{proof}[Answer]
+        答案是否定的，反例：$x_{i}= (0,0,\cdots,1,0,\cdots)$.
+    \end{proof}
+
+    由于“点列收敛，等价于点列中每个分量作为数列收敛”，$\mathbb{R}$ 中数列极限的一些性质可以直接搬到
+    $\mathbb{R}^{n}$。
+
+    \begin{formal}
+        \begin{center}
+            \begin{tabular}{c c c}
+                \hline
+                性质  & $\mathbb{R}$ & $\mathbb{R}^{n}$ \\
+                \hline
+                唯一性 & $\checkmark$ & $\checkmark$     \\
+                有界性 & $\checkmark$ & $\checkmark$     \\
+                保号性 & $\checkmark$ & $\times$         \\
+                夹逼性 & $\checkmark$ & $\times$         \\
+                \hline
+            \end{tabular}
+        \end{center}
+
+        \bigskip
+
+        定义 $\{x_{k}\}$ 有界: $\exists M > 0$, $\forall k \in \mathbb{N}$,
+        $\|x_{k}\| < M$.
+    \end{formal}
+
+    \subsection{$\mathbb{R}^{n}$ 的拓扑（开，闭）}
+
+    目标：类比 $(a, b)$ 开区间, $[a, b]$ 闭区间 的 高维情形.
+
+    $(a, b)$: $\forall x \in (a, b)$, $\exists \delta > 0$: $(x - \delta, x + \delta
+    ) \subset (a, b)$
+
+    $[a, b]$: 对取极限封闭。 (设 $\{x_{k}\} \subset [a, b]$ 且
+    $\lim_{k \to \infty}x_{k}= \xi$, 则 $\xi \in [a, b]$)
+
+    \begin{formal}
+        [Def (点与集合的关系)] 设 $E \subset \mathbb{R}^{n}$
+
+        \begin{enumerate}
+            \item 称 $x \in \mathbb{R}^{n}$ 为 $E$ 的内点, 若
+                $\exists \delta > 0$ s.t. $B_{\delta}(x) \subset E$ (interior
+                point)
+
+                记 $E$ 的所有内点构成的集合为 $E^{\circ}$ (也记为 $\operatorname{int}
+                (E)$)
+
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw (0,0) circle (1.5cm);
+                        \node at (0,0) {$E$};
+                        \filldraw[fill=gray!20, draw=black]
+                            (0.5,0.5)
+                            circle
+                            (0.2cm);
+                        \node at (0.5,0.5) {$x$};
+                    \end{tikzpicture}
+                \end{center}
+
+            \item 称 $x \in \mathbb{R}^{n}$ 为 $E$ 的外点, 若
+                $\exists \delta > 0$ s.t. $B_{\delta}(x) \cap E = \emptyset$ (即
+                $x$ 是 $E^{c}$ 的内点)
+
+                记 $E$ 的所有外点构成的集合为 $\operatorname{ext}(E)$ (即 $(E^{c}
+                )^{\circ}$)
+
+            \item 称 $x$ 为 $E$ 的边界点, 若
+                \[
+                    \forall \delta > 0, \quad B_{\delta}(x) \cap E \neq \emptyset
+                    \neq B_{\delta}(x) \cap E^{c}
+                \]
+                记 $E$ 的所有边界点构成的集合为 $\partial E$。
+                \[
+                    \mathbb{R}^{n}= E^{\circ}\cup (E^{c})^{\circ}\cup \partial E
+                    \quad (\text{无交并})
+                \]
+
+            \item 称 $x$ 为 $E$ 的聚点 (accumulation point) (也称为极限点 (limiting
+                point)), 若
+                \[
+                    \forall \delta > 0: \#(B_{\delta}(x) \cap E) = \infty
+                \]
+
+                记 $E$ 的所有聚点构成的集合为 $E^{\prime}$。
+
+            \item 称 $x$ 为 $E$ 的孤立点 (isolated point) , 若
+                \[
+                    \exists \delta > 0, \text{s.t. }B_{\delta}(x) \cap E = \{x\}
+                \]
+        \end{enumerate}
+    \end{formal}
+
+    \begin{example}
+        \begin{enumerate}
+            \item $\mathbb{R}^{n}$, $E = B_{\delta}(a)$ ($\delta > 0$)
+
+                \begin{center}
+                    \begin{tikzpicture}
+                        \draw (0,0) circle (1.5cm);
+                        \node at (-0.2,0) {$a$};
+                        \filldraw[fill=gray!20, draw=black]
+                            (0.7,0.5)
+                            circle
+                            (0.1cm);
+                        \node at (0.75, 0.5) [right] {$x$};
+                        \draw[<->] (0,0) -- (0.7,0.5);
+                        \node at (0.35, 0.45) {$r$};
+                        \draw[dashed] (0,0) -- (1.5,0);
+                        \node at (0.75, -0.5) [above] {$\delta$};
+                    \end{tikzpicture}
+                \end{center}
+
+                \textbf{Claim:} $E^{\circ}= E$
+
+                \begin{proof}
+                    设 $x \in B_{\delta}(a)$. 令 $r = \|a - x\|$, 则 $0 < r < \delta$.
+
+                    取 $\rho = \frac{1}{4}\min\{r, \delta - r\} > 0$. 考虑
+                    $B_{\rho}(x)$.
+
+                    $y \in B_{\rho}(x) \implies \|x - y\| < \rho$
+
+                    $\|y - a\| \leq \|y - x\| + \|x - a\| < \rho + r \leq \frac{\delta
+                    - r}{4}+ r = \frac{\delta + 3r}{4}< \frac{\delta + 3\delta}{4}
+                    = \delta$.
+
+                    因此, $y \in B_{\delta}(a)$. 所以 $B_{\rho}(x) \subset B_{\delta}
+                    (a) = E$. 因此 $x \in E^{\circ}$. 所以 $E \subset E^{\circ}$.
+
+                    又因为 $E^{\circ}\subset E$ (根据定义), 所以 $E^{\circ}= E$.
+                \end{proof}
+
+                $\operatorname{ext}(E) = \{x \in \mathbb{R}^{n}\mid \|x - a\| > \delta
+                \}$
+
+                $\partial E = \{x \in \mathbb{R}^{n}\mid \|x - a\| = \delta\}$
+
+                $E' = \{x \in \mathbb{R}^{n}\mid \|x - a\| \leq \delta\}$
+
+            \item $E = \mathbb{Q}^{n}$
+
+                $E^{\circ}= \emptyset$
+
+                $(E^{c})^{\circ}= \emptyset$
+
+                $E^{\prime}= \mathbb{R}^{n}$
+        \end{enumerate}
+    \end{example}
+
+    \begin{formal}
+        [Def ($\mathbb{R}^{n}$ 的拓扑：开集与闭集)]
+        \begin{enumerate}
+            \item 称 $G$ 为 $\mathbb{R}^{n}$ 中的开集, 若 $\forall x \in G$, $x$
+                是 $G$ 的内点 (即 $G = G^{\circ}$)
+
+            \item 称 $F$ 为 $\mathbb{R}^{n}$ 中的闭集, 若 $\forall x \in F'$, $x
+                \in F$ (即 $F \supset F'$)
+
+            \item 称 $\overline{E}:= E \cup E'$ 为 $E$ 的闭包 (closure)
+        \end{enumerate}
+    \end{formal}
+
+    \begin{remark}
+        空集 $\emptyset$ 既是开集也是闭集。
+    \end{remark}
+
+    \begin{problem}
+        [思考题：证明]
+        \begin{enumerate}
+            \item $E^{\circ}$ 是 $E$ 中的最大开集 (即若 $G$ 开且 $G \subset E$, 则
+                $G \subset E^{\circ}$)
+
+            \item $\overline{E}$ 是包含 $E$ 的最小闭集 (即若 $F$ 闭且
+                $F \supset E$, 则 $F \supset \overline{E}$)
+
+            \item 对 $\mathbb{R}^{n}$,
+                \[
+                    B_{r}(a) = \{x \in \mathbb{R}^{n}\mid d(x, a) < r\}
+                \]
+                \[
+                    \overline{B_r(a)}= \{x \in \mathbb{R}^{n}\mid d(x, a) \leq r
+                    \}
+                \]
+
+                Q: 设 $(X, d)$ metric space. 是否仍有
+                \[
+                    \overline{\{x \in X \mid d(x, a) < r\}}\stackrel{?}{=}\{x \in
+                    X \mid d(x, a) \leq r\}
+                \]
+        \end{enumerate}
+    \end{problem}
+
+    \begin{theorem}[Theorem]
+        $F$ 是 $\mathbb{R}^{n}$ 中的闭集 $\iff$ $F^{c}$ 是 $\mathbb{R}^{n}$ 中的开集.
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        ($\implies$) 设 $x \in F^{c}$, $x \notin F$, 因 $F$ 闭, $x$ 非 $F$
+        的聚点。
+
+        即 $\exists \delta > 0$ s.t. $B_{\delta}(x) \cap F = \emptyset$. 即 $B_{\delta}
+        (x) \subset F^{c}$。
+
+        ($\impliedby$) 设 $x \in F'$, 反证, 若 $x \notin F$, 则 $x \in F^{c}$。
+
+        因 $F^{c}$ 开, $\exists \delta > 0$: $B_{\delta}(x) \subset F^{c}$, 与 $x$
+        是 $F$ 的聚点矛盾。（因为如果 $x$ 是 $F$ 的聚点，那么所有以 $x$ 为中心的开球都应该与
+        $F$ 有非空交集。但是，由于 $F^{c}$ 是开集，我们找到了一个以 $x$ 为中心的开球，它完全位于
+        $F^{c}$ 中，与 $F$ 没有任何交集。）
+    \end{proof}
+
+    \begin{theorem}[Theorem]
+        $\mathbb{R}^{n}$ 中的开、闭集具有以下性质：
+        \begin{enumerate}[label=(\roman{*})]
+            \item 任意个开集的并仍是开集.
+
+                (设 $\{G_{\alpha}, \alpha \in \Lambda\}$ 是一族开集, 则 $\bigcup_{\alpha
+                \in \Lambda}G_{\alpha}$ 是开集.)
+
+            \item 有限个开集的交仍是开集.
+
+            \item 任意个闭集的交仍是闭集.
+
+            \item 有限个闭集的并仍是闭集.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        \begin{enumerate}[label=(\roman{*})]
+            \item 设 $x \in \bigcup_{\alpha \in \Lambda}G_{\alpha}$, 则
+                $\exists \alpha_{*}\in \Lambda$ \st $x \in G_{*}$.
+
+                因 $G_{*}$ 开, $\exists \delta > 0$ \st $B_{\delta}(x) \subset G_{*}
+                \subset \bigcup_{\alpha \in \Lambda}G_{\alpha}$.
+
+            \item 设 $x \in \bigcap_{i=1}^{l}G_{i}$,
+
+                $\forall i = 1, \dots, l$, $x \in G_{i}$. 因 $G_{i}$ 开,
+                $\exists \delta_{i}> 0$ \st $B_{\delta_i}(x) \subset G_{i}$.
+
+                取 $\delta := \min\{\delta_{1}, \dots, \delta_{l}\} > 0$, 有 $B_{\delta}
+                ( x) \subset G_{i}$, $(\forall i)$,
+
+                $\Rightarrow B_{\delta}(x) \subset \bigcap_{i=1}^{l}G_{i}$.
+
+            \item $\{F_{\alpha}, \alpha \in \Lambda\}$ 一族闭集.
+
+                则
+                \[
+                    \bigcap_{\alpha \in \Lambda}F_{\alpha}\text{ 闭}\iff \left(\bigcap
+                    _{\alpha \in \Lambda}F_{\alpha}\right)^{c}\text{ 开 (de
+                    Morgan) }\iff \bigcup_{\alpha \in \Lambda}F_{\alpha}^{c}\text{
+                    开 }
+                \]
+        \end{enumerate}
+    \end{proof}
+
+    \begin{formal}
+        [Def (拓扑)] 设 $X$ 为一集合, $\tau = 2^{X}$, 称 $(X, \tau)$ 为一拓扑空间,
+        若 $\tau$ 满足:
+        \begin{enumerate}[label=(\roman{*})]
+            \item $\begin{aligned}
+                    \emptyset, X \in \tau
+                \end{aligned}$
+
+            \item 设 $G_{\alpha}\in \tau$ ($\forall \alpha \in \Lambda$), 则
+                $\bigcup_{\alpha \in \Lambda}G_{\alpha}\in \tau$
+
+            \item 设 $G_{1}, G_{2}, \dots, G_{l}\in \tau$, 则
+                $\bigcap_{i=1}^{l}G_{i}\in \tau$.
+        \end{enumerate}
+
+        将 $\tau$ 中的元素称为 $X$ 中的开集.
+
+        设 $x \in X$, $\exists \tau \ni G \ni x$, 则称 $G$ 是 $x$ 的一个邻域.
+    \end{formal}
+
+    \begin{remark}
+        $\lim_{k \to \infty}x_{k}= A \stackrel{\text{def}}{\iff}\forall \varepsilon
+        > 0, \exists K, \forall k > K$:
+        \[
+            d(x_{k}, A) < \varepsilon
+        \]
+        \[
+            x_{k}\in B_{\varepsilon}(A)
+        \]
+
+        在拓扑空间中 $(X, \tau)$
+        \[
+            \lim_{k \to \infty}x_{k}= A \stackrel{\text{def}}{\iff}\forall G \in
+            \tau \And G \ni A \quad \exists K, \forall k>K: x_{k}\in G
+        \]
+
+        $(X, d_{X}) \xrightarrow{f}(Y, d_{Y})$
+        \[
+            \lim_{x \to x_0}f(x) = A
+        \]
+    \end{remark}
+
+    \newpage
+
+    \subsection{$\mathbb{R}^{n}$ 的基本定理}
+
+    我们要考虑 $\mathbb{R}^{n}$ 的基本定理之前，我们先来看看我们 $\mathbb{R}$
+    中基本定理是如何推导的。
+
+    $\mathbb{R}$ 的构造 $\implies$ 确界存在 $\implies$ 单调有界必收敛 $\implies$
+    Bolzano-Weierstrass 定理
+
+    \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+    $\Downarrow$
+
+    \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad 闭区间套
+    $\Leftarrow$ Cauchy收敛原理
+
+    当然上述的推导的路径只是其中的一条，你可以直接通过B-W推出闭区间套，也可以通过闭区间套推单调有界必收敛……但这个我们现在并不关心，
+    我们关心的是，我们能不能把这个推导路径推广到 $\mathbb{R}^{n}$ 中。
+
+    但是和 $\mathbb{R}$ 中不同的是，$\mathbb{R}^{n}$ 无序结构。所以说“单调”就没有了，但是“有界”之类的还是存在的，所以说
+    你可以期待 B-W，Cauchy收敛原理，闭区间套这三个定理在 $\mathbb{R}^{n}$ 中的推广。
+
+    \begin{theorem}[Bolzano-Weierstrass]
+        $\mathbb{R}^{n}$ 中有界点列 $\{x_{k}\}$ 必有收敛子列.
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        已知 $\{x_{k}\} \subset \mathbb{R}^{n}$ 中收敛 $\iff \forall j \in \{1, \dots
+        , n\}$, $\{x_{k}^{(j)}\}$ ($x_{k}$的第j个分量作为数列) 收敛
+
+        设 $\{x_{k}\}$ 为 $\mathbb{R}^{n}$ 中有界点列.
+
+        则 $\{x_{k}^{(j)}\}_{k=1}^{\infty}$ 为有界数列, $j = 1, \dots, n$.
+
+        令 $j=1, 2, \dots, n$, 利用 $\mathbb{R}$ 的 B-W 定理
+
+        依次取子列即可可得 $\{x_{k_l}\}$ 收敛子列.
+    \end{proof}
+
+    \begin{theorem}[Cauchy]
+        $\{x_{k}\}$ 在 $\mathbb{R}^{n}$ 中收敛 $\iff$ $\{x_{k}\}$ 是 Cauchy 列.
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        \begin{itemize}
+            \item[$(\Longrightarrow)$] 显然
+                \[
+                    \begin{aligned}
+                        \|x_{k}- x_{l}\| & \le \|x_{k}- A\| + \|A - x_{l}\|
+                    \end{aligned}
+                \]
+
+            \item[$(\Longleftarrow)$] 有两种方法：
+                \begin{enumerate}
+                    \item 依照 $\mathbb{R}^{n}$ 的情形, 由 B-W 推出
+
+                    \item $\{x_{n}\}$ Cauchy $\implies$ $\{x_{k}^{(j)}\}$ Cauchy,
+                        $j = 1, \dots, n$
+
+                        $\{x_{k}^{(j)}\}$ 收敛, $j = 1, \dots, n$
+                \end{enumerate}
+        \end{itemize}
+    \end{proof}
+
+    \begin{theorem}[Cantor 闭集套]
+        设 $\{F_{k}, k \in \N\}$ 是 $\R^{n}$ 中一列非空闭集, 满足
+        \begin{itemize}
+            \item[(i)] $F_{1}\supset F_{2}\supset F_{3}\supset \dots$
+
+            \item[(ii)] $\lim_{k \to \infty}\mathrm{diam}(F_{k}) = 0$
+        \end{itemize}
+        其中 $\mathrm{diam}(E) := \sup_{x, y \in E}d(x, y)$.
+
+        则 $\exists! \ \xi \in \bigcap_{k=1}^{\infty}F_{k}$.
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        $\forall k \in \mathbb{N}_{+}$, 取 $x_{k}\in F_{k}$.
+
+        由闭集套的性质 (i), 有
+        \[
+            \{x_{k}, x_{k+1}, x_{k+2}, \dots \} \subset F_{k}\ (\forall k \in \mathbb{N}
+            _{+})
+        \]
+
+        由性质 (ii), $\{x_{k}\}_{k=1}^{\infty}$ 为一个 Cauchy 列, 则
+        $\exists \ \xi \in \mathbb{R}^{n}\ \st \lim_{k \to \infty}x_{k}= \xi \ (\forall
+        k)$.
+
+        若 $\{x_{k}\}_{k=1}^{\infty}$ 仅有有限个不同的点, 显然成立。
+
+        否则$\{x_{k}\}_{k=1}^{\infty}$ 中有无限个相同的点 $\xi$, 则 $\xi$ 是
+        $F_{k}$ 的聚点 $(\forall k)$, $F_{k}$ 闭, 有
+        $\xi \in F_{k}\ (\forall k)$.
+
+        故 $\xi \in \bigcap_{k=1}^{\infty}F_{k}$. 唯一性显然.
+    \end{proof}
+
+    \begin{remark}
+        思考：如何从闭集套推出B-W？
+
+        一维情况下使用二分区间的方式证明，多维情况下如何证明？提示：二维四分，三维八分，$n$
+        维 $2^{n}$ 分区间。维数有限非常重要。
+    \end{remark}
+
+    接下来我们介绍 $\mathbb{R}^{n}$ 中有界闭集的一个等价刻画。
+
+    \begin{formal}
+        [开覆盖] 设 $E \subset \mathbb{R}^{n}$, 若一族开集
+        $\{G_{\alpha}, \alpha \in \Lambda\}$ 满足
+        \[
+            \bigcup_{\alpha \in \Lambda}G_{\alpha}\supset E,
+        \]
+        则称 $\{G_{\alpha}\}_{\alpha \in \Lambda}$ 为 $E$ 的一个开覆盖.
+    \end{formal}
+
+    \begin{formal}
+        [紧集] 称 $K \subset \mathbb{R}^{n}$ 为紧集 (Compact Set), 若 $K$
+        的任何一个开覆盖, 均存在有限子覆盖.
+
+        「也即：若 $\{G_{\alpha}, \alpha \in \Lambda\}$ 为 $K$ 的一个开覆盖,
+        则一定存在
+        $G_{\alpha_1}, \dots, G_{\alpha_N}\ \st \ \bigcup_{i=1}^{N}G_{\alpha_i}\supset
+        K$.」
+    \end{formal}
+
+    \begin{theorem}[Heine-Borel 定理]
+        $\mathbb{R}^{n}$ 中
+        \[
+            K \text{ 紧}\iff K \text{ 有界闭集}
+        \]
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        \begin{itemize}
+            \item[$(\Longrightarrow)$] 设 $K$ 是紧集.
+
+                \begin{enumerate}
+                    \item 证明 $K$ 有界: 考虑开球族
+                        $\{B(0, n) : n \in \mathbb{N}\}$, 显然 $\bigcup_{n=1}^{\infty}
+                        B(0, n) = \mathbb{R}^{n}\supset K$. 由于 $K$ 是紧集, 存在有限子覆盖,
+                        即存在 $N \in \mathbb{N}$, 使得 $K \subset B(0, N)$.
+                        因此, $K$ 是有界的.
+
+                    \item 证明 $K$ 是闭集: 只需证明 $K^{c}$ 是开集. 任取 $x \in K
+                        ^{c}$, 对任意 $y \in K$, 由于 $x \ne y$, 存在开球
+                        $U_{y}= B(y, r_{y})$ 和 $V_{y}= B(x, r_{y})$ 使得
+                        $r_{y}= \frac{1}{2}|x - y|$ 且
+                        $U_{y}\cap V_{y}= \emptyset$. 显然 $\{U_{y}: y \in K\}$ 构成
+                        $K$ 的一个开覆盖. 由于 $K$ 是紧的, 存在有限子覆盖,
+                        即存在 $y_{1}, \dots, y_{m}\in K$, 使得 $K \subset \bigcup
+                        _{i=1}^{m}U_{y_i}$. 令 $V = \bigcap_{i=1}^{m}V_{y_i}$, 则
+                        $V$ 是 $x$ 的一个开邻域, 且 $V \cap K = \emptyset$. 因此,
+                        $V \subset K^{c}$, 这表明 $K^{c}$ 是开集, 从而 $K$
+                        是闭集.
+                \end{enumerate}
+
+            \item[$(\Longleftarrow)$] 反证法。考虑 $n = 2$ 的情形。
+
+                设 $\{G_{\alpha}\}_{\alpha \in \Lambda}$ 为 $K$ 的一个开覆盖, 但其不存在任何有限开子集可覆盖
+                $K$.
+
+                将 $I$ 四等分, 则其中必有一块 (记为 $I_{1}$) 与 $K$ 的交
+                $\{G_{\alpha}\}$ 有限覆盖.
+
+                再将 $I_{1}$ 四等分, 则其中必有一块 (记为 $I_{2}$) 与 $K$ 的交 $\{
+                G_{\alpha}\}$ 有限覆盖.
+
+                继续可得一列闭矩形 $I_{k}, k=1,2,\dots$
+
+                \begin{enumerate}
+                    \item $\forall k$, $I_{k}\cap K$ 不能被
+                        $\{G_{\alpha}\}_{\alpha \in \Lambda}$ 的有限个覆盖.
+
+                    \item $\lim_{k \to \infty}\text{diam}(I_{k}\cap K) = 0$.
+                \end{enumerate}
+
+                由 Cantor 区间套定理知:
+                \[
+                    \exists ! \xi \in \bigcap_{k=1}^{\infty}(I_{k}\cap K)
+                \]
+                \[
+                    \xi \in K \subset \bigcup_{\alpha \in \Lambda}G_{\alpha}\Rightarrow
+                    \exists G_{*}\st \xi \in G_{*}
+                \]
+
+                $G_{*}$ 开 $\Rightarrow \exists \delta > 0 \st B_{\delta}(\xi) \subset
+                G_{*}$.
+
+                由于 $\xi \in I_{k}\cap K (\forall k)$
+
+                $\lim_{k \to \infty}\text{diam}(I_{k}\cap K)$, 当 $k$ 充分大时,
+                有 $I_{k}\cap K \subset B_{\delta}(\xi)$.
+
+                与 $I_{k}\cap K$ 不能被 $\{G_{\alpha}\}_{\alpha \in \Lambda}$
+                有限个覆盖矛盾.
+        \end{itemize}
+    \end{proof}
+
+    \begin{theorem}
+        设 $K \subset \R^{n}$, 则以下三个命题等价:
+
+        (1) $K$ 有界闭.
+
+        (2) $K$ 紧.
+
+        (3) $K$ 中任何序列均有收敛子列, 且其极限 $\in K$. (自列紧)
+    \end{theorem}
+
+    \begin{proof}[Proof]
+        (1) $\Longleftrightarrow$ (2) 已证.
+
+        (1) $\Longrightarrow$ (3) 显然. (B-W)
+
+        (3) $\Longrightarrow$ (1) 反证法. $K$ 闭是显然的，因为要求聚点都在 $K$
+        中。
+
+        下面反证 $K$ 有界. 设 $K$ 无界，则存在 $\{x_{k}\} \subset K$ 满足
+        $\|x_{k}\| > k$, 但 $\{x_{k}\}$ 不可能有收敛子列.
+    \end{proof}
+
+    \subsection{多元连续映射}
+
+    \begin{formal}
+        [多元连续映射] 称 $f: D \subset \R^{n}\longrightarrow \R^{m}$
+        \[
+            x \longmapsto f(x)
+        \]
+        为 $n$ 元 $m$ 维向量值函数.
+
+        $D$ 称为 $f$ 的定义域.
+
+        $f(D) := \{f(x) \mid x \in D\}$ 称为 $f$ 的像集.
+
+        $\text{Graph}(f) := \{(x, f(x)) \mid x \in D\}$ 称为 $f$ 的图像.
+    \end{formal}
+
+    \begin{formal}
+        [多元函数极限] 设 $D \subset \R^{n}$, $x_{0}$ 是 $D$ 的一个聚点. $f: D \setminus
+        \{x_{0}\} \to \R^{m}$
+        \[
+            \lim_{x \to x_0}f(x) = A \stackrel{\text{def}}{\Longleftrightarrow}\forall
+            \ep > 0, \; \exists \delta > 0, \; \forall x \in B_{\delta}(x_{0}) \cap
+            (D \setminus \{x_{0}\}):
+        \]
+        \[
+            \|f(x) - A\| < \ep
+        \]
+    \end{formal}
+
+    \begin{remark}
+        极限存在意味着：自变量无论以什么样趋近于 $x_{0}$ 时,对应的函数值均趋于 $A$.
+
+        所以, 若 $x$ 沿某条曲线趋近于$x_{0}$时, 极限不存在, 或 $x$
+        沿某两条曲线趋近于$x_{0}$时, 得到不同的极限, 则 $f$ 在$x_{0}$处极限不存在.
+    \end{remark}
+
+    \begin{problem}
+        [E.g.] (1) $f(x, y) = \frac{xy}{x^{2}+ y^{2}}$, $(x, y) \neq (0, 0)$.
+
+        (2) $f(x, y) = \frac{x^{2}y}{x^{4}+ y^{2}}$, $(x, y) \neq (0, 0)$.
+    \end{problem}
+
+    \begin{solution}
+        (1) 探讨 $\lim_{(x, y) \to (0, 0)}f(x, y)$ 存在与否? 我们沿着 $y = kx$
+        趋近于 $(0, 0)$.
+
+        $\lim_{\substack{x \to 0 \\ y = 0}}\frac{xy}{x^{2}+ y^{2}}= 0$.
+
+        $\lim_{\substack{x \to 0 \\ y = kx}}\frac{xkx}{x^{2}+ k^{2}x^{2}}= \frac{k}{1
+        + k^{2}}$. 极限不存在.
+
+        (2) $k \neq 0$, 类似的，我们沿着 $y = kx$ 趋近于 $(0, 0)$. $\lim_{\substack{x \to 0 \\ y = kx}}
+        \frac{x^{2}kx}{x^{4}+ k^{2}x^{2}}= 0$.
+
+        $\lim_{(x, y) \to (0, 0)}f(x, y)$ 不存在.
+    \end{solution}
+
+    与一元函数极限一样，多元函数极限同样拥有唯一性、局部有界性、夹逼性、局部保序性等性质，也同样
+    可以进行四则运算。
+
+    也可引入另一种极限概念: 设 $f$ 在 $D$ 上有定义, 若 $\forall y \neq y_{0}$,
+    $\lim_{x \to x_0}f(x, y) = \varphi(y)$ 存在, 则可考虑 $\lim_{y \to y_0}\varphi
+    (y) = \lim_{y \to y_0}\lim_{x \to x_0}f(x, y )$. （比如你可以先固定 $x$，然后
+    让 $y$ 趋近于 $y_{0}$，然后再让 $x$ 趋近于 $x_{0}$） 称为 $f$ 在 $(x_{0}, y_{0}
+    )$ 处先 $x$ 后 $y$ 的累次极限.
+
+    \begin{formal}
+        [Prop] 设 $f$ 在 $(x_{0}, y_{0})$ 的一个空心邻域上有定义,
+
+        设 $\lim_{(x, y) \to (x_0, y_0)}f(x, y) = A$ 且 $\forall y \neq y_{0}$,
+        有 $\lim_{x \to x_0}f(x, y) = \varphi(y)$ 存在,
+
+        则
+        \[
+            \lim_{y \to y_0}\lim_{x \to x_0}f(x, y) = A.
+        \]
+    \end{formal}
+
+    讨论完了极限，我们可以继续讨论连续性。
+
+    \begin{formal}
+        [连续性] (1) 设 $f: D \to \mathbb{R}^{m}$, $x_{0}\in D$, 称 $f$ 在 $x_{0}$
+        处连续, 若
+        \[
+            \forall \varepsilon > 0, \; \exists \delta > 0, \; \forall x \in B_{\delta}
+            (x_{0}) \cap D: \; |f(x) - f(x_{0})| < \varepsilon
+        \]
+
+        (2) 若 $\forall x \in D$, $f$ 在$x$处连续, 则称 $f \in C(D, \mathbb{R}^{m}
+        )$.
+
+        \vspace{1em}
+
+        如果将定义拓展到度量空间上：设 $(X, d_{X})$, $(Y, d_{Y})$ 为两个度量空间,
+        $f: X \to Y$.
+
+        设 $x_{0}\in X$, 称 $f$ 在 $x_{0}$ 处连续, 若
+        \[
+            \forall \varepsilon > 0, \; \exists \delta > 0, \; \forall x \in X, d
+            _{X}(x, x_{0}) < \delta: \; d_{Y}(f(x), f(x_{0})) < \varepsilon.
+        \]
+    \end{formal}
+
+    \begin{remark}
+        若 $x_{0}$ 为 $D$ 的孤立点, 则天然地 $f$ 在 $x$ 处连续; 若 $x_{0}$ 是 $D$
+        的聚点, 则 $\lim_{x \to x_0}f(x) = f(x_{0}).$
+    \end{remark}
+
+    \begin{formal}
+        [Prop] 设 $D \subset \mathbb{R}^{n}$, $x_{0}\in D$, $f: D \to \mathbb{R}^{m}$,
+
+        则 $f$ 在 $x_{0}$ 处连续 $\iff$ $f^{i}: D \to \mathbb{R}$ $(i = 1, \dots,
+        m)$ 在 $x_{0}$ 处连续.
+    \end{formal}
+
+    \begin{problem}
+        [思考题] $f \in C((X, d_{X}), (Y, d_{Y}))$ $\iff$ $\forall$ $Y$ 中的开集
+        $V$, 有 $f^{-1}(V)$ 在 $X$ 中是开集. ($f^{-1}(V) = \{x \in X | f(x) \in V
+        \}$)
+    \end{problem}
+
+    同样，和一元函数一样，多元函数连续性也有四则运算，复合运算等性质。（设 $g: D
+    \to \mathbb{R}^{k}$, $f: \Omega \to \mathbb{R}^{m}$, 且 $g(D) \subset \Omega$.
+    设 $g$ 在 $x_{0}$ 处连续, $f$ 在 $g(x_{0})$ 处连续, 则 $f \circ g$ 在
+    $x_{0}$ 处连续.）
+
+    \subsection{连续映射的整体性质}
+
+    我们这章节需要证明两个东西：
+
+    \begin{formal}
+        设 $k \subset \mathbb{R}^{n}$, $f \in C(k, \mathbb{R}^{m})$, 则 $f($紧集$)
+        =$紧, $f($连通$)=$连通.
+    \end{formal}
+
+    运用这个“高维”的视角再来看一元函数我们证明的结论，我们发现一元情形下是这个的特例。一元时：$[
+    a,b]$ 紧，$f([a,b])$ 有界，有最值（相当于就在说 $f([a,b])$ 紧）； $[a,b]$
+    连续，$f( [a,b])$ 有介值定理（相当于就在说 $f([a,b])$ 连通）。
+
+    \begin{theorem}
+        设 $k \subset \mathbb{R}^{n}$, $f \in C(k, \mathbb{R}^{m})$, 则 $f(k)$ 紧.
+    \end{theorem}
+
+    我们使用两种方法来证明。两种方法分别对应紧集的两个性质：自列紧和有限开覆盖。
+
+    \begin{proof}[Proof]
+        \begin{enumerate}
+            \item 设 $\{y_{k}\} \subset f(k)$
+
+                则 $\exists x_{k}\in K$ \st $f(x_{k}) = y_{k}$ $(\forall k)$
+
+                $\{x_{k}\} \subset K$, $K$ 列紧 $\implies$ $\exists$ 子列
+                $\{x_{k_l}\} \to \xi \in K$
+
+                $f(k)$ $\xleftarrow{f \text{ 在 } \xi \text{ 处连续}}$ $f(x_{k_l}
+                ) = y_{k_l}$
+
+            \item 设 $\{G_{\alpha}, \alpha \in \Lambda\}$ 为 $f(k)$ 的一个开覆盖.
+
+                由 $f$ 的连续性, $f^{-1}(G_{\alpha})$ 在 $k$ 中开
+                $(\forall \alpha \in \Lambda)$
+
+                ($f^{-1}($开$)=$开) 且
+                $f^{-1}(\bigcup_{\alpha \in \Lambda}G_{\alpha}) = \bigcup_{\alpha
+                \in \Lambda}f^{-1}(G_{\alpha}) \supset K$
+
+                $k$ 紧 $\implies$ $f^{-1}(G_{\alpha_1}) \cup \dots \cup f^{-1}(G_{\alpha_l}
+                ) \supset K \implies G_{\alpha_1}\cup \dots \cup G_{\alpha_l}\supset
+                f(k)$
+        \end{enumerate}
+    \end{proof}
+
+    \begin{theorem}[Cantor]
+        设 $f \in C(k, \mathbb{R}^{m})$, $k \subset \mathbb{R}^{n}$ 紧, 则 $f$ 在
+        $k$ 上一致连续.
+
+        即 $\forall \varepsilon > 0$, $\exists \delta > 0$, $\forall x_{1}, x_{2}
+        \in k$ 且 $|x_{1}- x_{2}| < \delta$:
+        \[
+            |f(x_{1}) - f(x_{2})| < \varepsilon
+        \]
+    \end{theorem}
+
+    \begin{formal}
+        [连通] (1) 设 $E \subset \R^{n}$, 设 $\gamma \in C([0,1], \R^{n})$ 且
+        $\gamma([0,1]) \subset E$, 则称 $\gamma$ 是 $E$ 中从 $\gamma(0)$ 起至 $\gamma
+        (1)$ 终的一条道路.
+
+        (2) 称 $E \subset \R^{n}$ 为 (道路) 连通集, 若 $\forall a, b \in E$, 存在
+        $E$ 中一条道路以 $a, b$ 为起止点.
+    \end{formal}
+
+    \begin{remark}
+        $\mathbb{R}$ 中的道路连通集是区间.
+    \end{remark}
+
+    \begin{theorem}
+        设 $E \subset \R^{n}$ 连通, $f \in C(E, \R^{m})$, 则 $f(E)$ 连通.
+    \end{theorem}
+
+    \begin{proof}
+        \begin{tikzpicture}
+            % Draw the set E
+            \draw[thick]
+                (0,0) to[out=45, in=180]
+                (2,1) to[out=0, in=90]
+                (4,-1) to[out=270, in=0]
+                (2,-2) to[out=180, in=315]
+                (0,0);
+            \node at (2,0.4) {$E$};
+
+            % Draw points x1 and x2 in E
+            \filldraw (1,-0.5) circle (1pt) node[anchor=south] {$x_{1}$};
+            \filldraw (3,-1.5) circle (1pt) node[anchor=north] {$x_{2}$};
+
+            % Draw a path gamma between x1 and x2
+            \draw[->] (1,-0.5) to[out=315, in=135] (3,-1.5);
+            \node at (2,-0.7) {$\gamma$};
+            \node at (0.5, -1) {$\gamma \in C([0,1], E)$};
+
+            % Draw the mapping f
+            \draw[->, thick] (4.5, -1) -- (6.5, -1);
+            \node at (5.5, -0.7) {$f$};
+
+            % Draw the set f(E)
+            \draw[thick]
+                (7,0) to[out=45, in=180]
+                (9,1) to[out=0, in=90]
+                (11,-1) to[out=270, in=0]
+                (9,-2) to[out=180, in=315]
+                (7,0);
+            \node at (9,0.4) {$f(E)$};
+
+            % Draw points y1 and y2 in f(E)
+            \filldraw (8,-0.5)
+                circle
+                (1pt)
+                node[anchor=south] {$y_{1}= f(x_{1})$};
+            \filldraw (10,-1.5)
+                circle
+                (1pt)
+                node[anchor=north] {$y_{2}= f(x_{2})$};
+
+            % Draw a path f o gamma between y1 and y2
+            \draw[->] (8,-0.5) to[out=315, in=135] (10,-1.5);
+            \node at (9,-0.7) {$f \circ \gamma$};
+        \end{tikzpicture}
+        \[
+            \begin{aligned}
+                f \circ \gamma \in C([0,1], \R^{n}) \\
+                f \circ \gamma([0,1]) \subset f(E)
+            \end{aligned}
+        \]
+        $f \circ \gamma$ 是连接 $y_{1}, y_{2}$ 的一条道路.
+    \end{proof}
+
+    \section{多元函数的微分学}
+
+    \subsection{偏导数与微分}
+
+    \begin{formal}
+        [偏导数] 设 $D \subset \R^{2}$ 开, $f: D \rightarrow \R$, $(x_{0}, y_{0})
+        \in D$, 称
+        \[
+            \frac{\partial f}{\partial x}(x_{0}, y_{0}) := \lim_{h \to 0}\frac{f(x_{0}+
+            h, y_{0}) - f(x_{0}, y_{0})}{h}
+        \]
+        为 $f$ 在 $(x_{0}, y_{0})$ 处关于 $x$ 的偏导数，也可记为 $f_{x}$.
+
+        $\forall (x, y) \in D$, $f$ 在 $(x, y)$ 处关于 $x$ 的偏导数存在, 则
+        \[
+            \frac{\partial f}{\partial x}: D \longrightarrow \R
+        \]
+        \[
+            \quad (x, y) \longmapsto \frac{\partial f}{\partial x}
+        \]
+        称为 $f$ 关于 $x$ 的偏导函数.
+    \end{formal}
+
+    \begin{remark}
+        (1) $\frac{\partial f}{\partial y}$ 可类似定义
+        \[
+            \frac{\partial f}{\partial y}(x_{0}, y_{0}) := \lim_{h \to 0}\frac{f(x_{0},
+            y_{0}+ h) - f(x_{0}, y_{0})}{h}
+        \]
+
+        (2) $f: D \subset \R^{n}\longrightarrow \R$
+        \[
+            \frac{\partial f}{\partial x^{i}}(X_{0}) := \lim_{h \to 0}\frac{f(x_{0}^{1},
+            \cdots, x_{0}^{i-1}, x_{0}^{i}+ h, x_{0}^{i+1}, \cdots, x_{0}^{n}) -
+            f(X_{0})}{h}
+        \]
+    \end{remark}
+
+    \begin{formal}
+        [高阶偏导] 设 $f: D \subset \R^{n}\to \R$, 关于 $x^{i}$ 可求偏导, 且 $\frac{\partial
+        f}{\partial x^{i}}: D \to \R$ 关于 $x^{j}$ 可继续求偏导, 称其关于
+        $x^{j}$ 的偏导数为 $f$ 关于 $x^{i}$, $x^{j}$ 的二阶偏导, 记为
+        \[
+            \frac{\partial^{2}f}{\partial x^{j}\partial x^{i}}= \frac{\partial}{\partial
+            x^{j}}\left( \frac{\partial f}{\partial x^{i}}\right)
+        \]
+        或
+        \[
+            f_{x^i x^j}= (f_{x^i})_{x^j}
+        \]
+    \end{formal}
+
+    \begin{example}
+        $f(\vec{x}) = \| \vec{x}- \vec{x}_{0}\|$,
+        $\vec{x}\in \R^{n}= \left( \sum_{k=1}^{n}(x^{k}- x_{0}^{k})^{2}\right)^{\frac{1}{2}}$
+        \[
+            \frac{\partial f}{\partial x^{i}}= \frac{1}{2}\left( \sum_{k=1}^{n}(
+            x^{k}- x_{0}^{k})^{2}\right)^{-\frac{1}{2}}\cdot 2(x^{i}- x_{0}^{i})=
+            \frac{x^{i}- x_{0}^{i}}{\| \vec{x}- \vec{x}_{0}\|}
+        \]
+        \[
+            \left( \frac{\partial f}{\partial x^{1}}, \cdots, \frac{\partial f}{\partial
+            x^{n}}\right) = \frac{\vec{x}- \vec{x}_{0}}{\| \vec{x}- \vec{x}_{0}\|}
+        \]
+    \end{example}
+
+    \begin{remark}
+        $f: D \subset \R^{n}\to \R$
+        \[
+            \nabla f(x) := \left( \frac{\partial f}{\partial x^{1}}, \cdots, \frac{\partial
+            f}{\partial x^{n}}\right)(x)
+        \]
+        称为 $f$ 的梯度, $\mathrm{grad}f$.
+    \end{remark}
+
+    然而，偏导数存在并不意味着函数连续，比如 $f(x, y) = \frac{xy}{x^{2}+ y^{2}}$
+    在 $(0, 0)$ 处的偏导数存在，但 $f$ 在 $(0, 0)$ 处极限不存在。我们需要一个更强的性质来保证
+    函数的连续性。
+
+    \begin{formal}
+        [偏导数有界 $\Rightarrow$ 连续] 设 $f$ 在 $(x_{0}, y_{0})$ 的某个邻域内关于
+        $x, y$ 偏导数均存在且有界, 则 $f$ 在 $(x_{0}, y_{0})$ 处连续.
+    \end{formal}
+
+    \begin{proof}[Proof]
+        \begin{align*}
+            |f(x, y) - f(x_{0}, y_{0})| & \le |f(x, y) - f(x_{0}, y)| + |f(x_{0}, y) - f(x_{0}, y_{0})|                                                                                                  \\
+                                        & \stackrel{A}{=}\left| \frac{\partial f}{\partial x}(\xi_{1}, y) \right| |x - x_{0}| + \left| \frac{\partial f}{\partial y}(x_{0}, \xi_{2}) \right| |y - y_{0}| \\
+                                        & \le M \left( |x - x_{0}| + |y - y_{0}| \right)
+        \end{align*}
+        $A$: 一元函数微分中值定理. $\xi_{1}\in (x_{0}, x)$,
+        $\xi_{2}\in (y_{0}, y)$.
+    \end{proof}
+
+    \begin{remark}
+        这是一个充分条件，（而且是很强的一个，相当于是一个局部的Lipschitz条件）但不是必要条件，比如
+        $\sqrt{x}$ 在 $x=0$ 处的导数不存在，但是在 $x=0$ 处连续。
+    \end{remark}
+
+    \begin{formal}
+        [方向导数] 设 $f: D \subset \R^{n}\to \R$, $x_{0}\in D$, $\boldsymbol{V}\in
+        \R^{n}$, 定义 $f$ 在 $x_{0}$ 处沿 $\boldsymbol{V}$ 的方向导数为 (沿 $\boldsymbol
+        {V}$ 正方向逼近)
+        \[
+            D_{\boldsymbol{V}}f(x_{0}) := \lim_{t \to 0^+}\frac{f(x_{0}+ t\boldsymbol{V})
+            - f(x_{0})}{t}
+        \]
+    \end{formal}
+
+    \begin{remark}
+        $\boldsymbol{V}= e_{i}= (0, 0, \underbrace{1}_{i}, 0, \cdots, 0)$ $D_{e_i}
+        f(x_{0}) = -D_{-e_i}(x_{0}) \Rightarrow D_{e_i}f(x_{0}) = \frac{\partial
+        f}{\partial x^{i}}(x_{0})$.
+    \end{remark}
+
+    \begin{example}
+        $f = \|x\|$, $x \in \R^{n}$
+        \[
+            D_{V}f(x) = \lim_{t \to 0^+}\frac{\|x + tV\| - \|x\|}{t}= \frac{\di}{\di
+            t}|_{t=0}\|x + tV\|
+        \]
+        \[
+            \frac{\di}{\di t}|_{t=0}\left( \sum_{i=1}^{n}(x^{i}+ tv^{i})^{2}\right
+            )^{\frac{1}{2}}= \frac{1}{2}\left( \sum_{i=1}^{n}(x^{i}+ tv^{i})^{2}\right
+            )^{-\frac{1}{2}}\cdot 2 \sum_{i=1}^{n}(x^{i}+ tv^{i}) v^{i}|_{t=0}= \frac{x
+            \cdot V}{\|x\|}= \nabla f(x) \cdot V
+        \]
+    \end{example}
+\end{document}
