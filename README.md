@@ -11,4 +11,4 @@
 
 ## 许可
 
-[MIT License](License)
+本仓库中的所有内容采用 [MIT 许可证](LICENSE) 进行许可。
