@@ -11,4 +11,4 @@
 
 ## 许可
 
-本仓库中的所有内容采用 [MIT 许可证](LICENSE) 进行许可。
+本仓库中的所有内容均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 许可协议进行许可。
